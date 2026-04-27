@@ -1,33 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mafia Game</title>
-  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <script src="/socket.io/socket.io.js"></script>
-  <div id="lobby">
-    <h1>Mafia!</h1>
-    <div>
-      <input id="name" type="text" placeholder="Your name">
-    </div>
+  <div id="app"></div>
 
-    <div>
-      <button onclick="createRoom()">Create a Room!</button>
-      <script src="client.js"></script>
-      <button onclick="joinRoom()">Join a Room!</button>
-    </div>
-  </div>
-  
-  <div id="admin" style="display:none;">
-    <h2>Admin Dashboard</h2>
-    <ul id="players"></ul>
-  </div>
-
-  <div id="player" style="display:none;">
-    <h2>You are a Player</h2>
-    <p id="role"></p>
-    <p id="status"></p>
-  </div>
+  <!-- Vite entry point -->
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

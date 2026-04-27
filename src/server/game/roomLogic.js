@@ -20,4 +20,20 @@ function createRoom(socket, name){
   return {roomCode: code, role: "admin"};
 }
 
-module.exports = {createRoom};
+function joinRoom(socket, code, name){
+  if (rooms[code]){
+    rooms[code].players[socket.id] = {
+      name,
+      role: "player",
+      alive: true
+    };
+
+    socket.join(code);
+    return {ok: true, roomCode: code, role: "player"};
+  }
+  else {
+    return {ok: false, error: "Room does not exist"};
+  }
+}
+
+module.exports = {createRoom, joinRoom};

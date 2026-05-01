@@ -1,9 +1,9 @@
 <script setup>
+  import {useRouter} from 'vue-router'
   import {ref, onMounted, onBeforeUnmount} from 'vue'
   import {socket} from '../socket'
 
-  const emit = defineEmits(['room-created', 'room-joined'])
-
+  const router = useRouter()
   const name = ref('')
   const roomCode = ref('')
 
@@ -20,14 +20,17 @@
   }
 
   function handleCreated(data) {
-    emit('room-created', data)
+    console.log(data)
+
+    router.push({name: 'Admin', params: {roomCode: data.roomCode}})
   }
   function handleJoined(data) {
     if (!data.ok){
       alert(data.error)
       return;
     }
-    emit('room-joined', data)
+
+    router.push({name: 'Player', params: {roomCode: data.roomCode}})
   }
 
   onMounted(() => {
@@ -72,7 +75,7 @@
       <!-- Create Room -->
       <button
         @click="createRoom"
-        class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg shadow transition"
+        class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg shadow transition cursor-pointer"
       >
         Create Room
       </button>
@@ -91,7 +94,7 @@
 
       <button
         @click="joinRoom"
-        class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 rounded-lg shadow transition"
+        class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 rounded-lg shadow transition cursor-pointer"
       >
         Join Room
       </button>

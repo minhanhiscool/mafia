@@ -1,11 +1,30 @@
 <script setup>
-  import {ref} from 'vue'
+  import {ref, onMounted, onBeforeUnmount} from 'vue'
   import {useRouter, useRoute} from 'vue-router'
+  import {socket} from '../socket'
   
   const router = useRouter()
   const route = useRoute()
-  const room = route.params.roomCode
+  const roomCode = route.params.roomCode
+  
+  
+  function handleRoomState(data) {
+    console.log(data)
 
+    if (data === null) {
+      router.push({name: 'Lobby'})
+    }
+  }
+
+  onMounted(() => {
+    socket.on('roomState', handleRoomState);
+    socket.emit('queryRoom', roomCode);
+  })
+  
+  onBeforeUnmount(() => {
+    socket.off('roomState', handleRoomState)
+  })
+  
 </script>
 
 <template>
@@ -13,7 +32,7 @@
     <div class="flex items-start justify-start pt-20 px-100 gap-64">
       <div class="bg-white shadow-lg rounded-2xl w-64 h-25 text-center">
         <p class="text-sm pt-2">The room code is:</p>
-        <h1 class="text-5xl font-extrabold text-red-400 tracking-wide py-1">{{ room }}</h1>
+        <h1 class="text-5xl font-extrabold text-red-400 tracking-wide py-1">{{ roomCode }}</h1>
       </div>
 
       <div class="bg-white/30 flex rounded-2xl w-64 h-25 justify-center items-center">
